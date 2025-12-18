@@ -1,0 +1,200 @@
+# Agent Developer Rules
+
+These rules define **non‑negotiable architectural and behavioral constraints** for any AI agent, code generator, or automated refactoring tool working on this project.
+
+The agent is an **assistant**, not an architect.
+
+---
+
+## 1. SYSTEM ROLE BOUNDARIES (MANDATORY)
+
+### 1.1 Off‑Chain Authority (Laravel)
+
+Laravel is the **system of coordination and governance**.
+
+The agent MUST:
+- Treat Laravel as the source of truth for:
+  - Users
+  - Zones
+  - Energy events (ON / OFF / PROBLEM)
+  - Governance decisions
+  - Payment records
+- Keep all business logic, aggregation, and validation **off‑chain**.
+
+The agent MUST NOT:
+- Move business logic into smart contracts
+- Let UI or users interact directly with blockchain tools
+
+---
+
+### 1.2 On‑Chain Enforcement (Aiken)
+
+Aiken smart contracts exist **only to enforce invariants**.
+
+The agent MUST:
+- Keep smart contracts minimal
+- Enforce:
+  - Minting conditions
+  - Supply limits
+  - Governance constraints
+
+The agent MUST NOT:
+- Encode UI assumptions
+- Encode zone logic
+- Encode reporting workflows
+
+> Smart contracts validate rules — they do not interpret community behavior.
+
+---
+
+### 1.3 Integration Boundary (Lucid / SDK)
+
+Lucid is a **transaction construction layer**, not a business layer.
+
+The agent MUST:
+- Treat Lucid code as an adapter
+- Only build transactions from **approved, validated off‑chain data**
+
+The agent MUST NOT:
+- Infer minting logic
+- Decide when a transaction should occur
+
+---
+
+## 2. DATA OWNERSHIP RULES
+
+### 2.1 Event Data
+
+- Energy events are recorded **off‑chain first**
+- On‑chain storage is limited to:
+  - Aggregated hashes
+  - Token balances
+  - Governance attestations
+
+The agent MUST NOT:
+- Store raw energy reports on‑chain
+- Mirror database tables on the blockchain
+
+---
+
+### 2.2 Power State Logic
+
+Power state is derived as follows:
+
+- Latest `ON` or `OFF` event per zone
+- `PROBLEM` events do NOT change power state
+
+The agent MUST:
+- Keep this logic in controllers or services
+- Never infer state inside Blade views
+
+---
+
+## 3. USER INTERACTION RULES
+
+### 3.1 UI Layer
+
+The agent MUST:
+- Use Blade + Tailwind for frontend
+- Prefer HTML forms over JavaScript actions
+- Keep UI stateless
+
+The agent MUST NOT:
+- Embed business logic in Blade
+- Introduce client‑side blockchain calls
+
+---
+
+### 3.2 Authentication
+
+- Authentication is handled by Laravel
+- Users do not manage blockchain keys
+
+The agent MUST NOT:
+- Ask users for private keys
+- Generate wallets in the browser
+
+---
+
+## 4. PAYMENT → TOKEN FLOW RULES
+
+Payments follow this order:
+
+1. User initiates payment (off‑chain)
+2. Payment is verified and settled
+3. Laravel records payment
+4. Governance or system approval occurs
+5. Blockchain transaction is prepared
+6. Smart contract validates mint
+
+The agent MUST:
+- Treat payment confirmation as mandatory
+- Separate payment logic from token minting
+
+The agent MUST NOT:
+- Mint tokens automatically on payment intent
+- Combine payment and blockchain steps
+
+---
+
+## 5. GOVERNANCE & VALIDATION RULES
+
+The system assumes **human‑in‑the‑loop governance**.
+
+The agent MUST:
+- Support approval workflows
+- Log validation decisions
+- Allow disputes and reversals off‑chain
+
+The agent MUST NOT:
+- Auto‑approve reports
+- Encode governance voting logic on‑chain prematurely
+
+---
+
+## 6. CODE GENERATION RULES
+
+The agent MAY:
+- Generate controllers
+- Generate migrations
+- Generate Blade views
+- Generate feature tests
+
+The agent MUST NOT:
+- Rename domain concepts without approval
+- Merge layers (UI ↔ blockchain)
+- Optimize prematurely
+
+---
+
+## 7. FAILURE & SAFETY RULES
+
+The agent MUST:
+- Fail safely
+- Log all orchestration errors
+- Never retry blockchain submissions blindly
+
+The agent MUST NOT:
+- Assume idempotency on chain
+- Auto‑resubmit failed transactions
+
+---
+
+## 8. DESIGN PHILOSOPHY (GUIDING AXIOMS)
+
+- Off‑chain is flexible
+- On‑chain is final
+- Humans decide
+- Code enforces
+- Aggregation over verbosity
+- Transparency over cleverness
+
+---
+
+## 9. FINAL INSTRUCTION TO THE AGENT
+
+> If a decision affects money, governance, or irreversibility:
+> **Do not decide. Ask.**
+
+Violation of these rules invalidates generated output.
+

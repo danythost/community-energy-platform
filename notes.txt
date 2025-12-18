@@ -1,0 +1,58 @@
+servers
+Host-server = xampp-localhost
+php server = application server
+frontendserver = vite + Blade
+
+Note: ZONE MODEL IS ON small letter
+
+Event History for Users: Currently, users can only see the latest status. We should let them see a history of their reports (and maybe others' reports in their zone).
+Admin Dashboard: A view for administrators to see all zones and their statuses, manageable via a special role or permission.
+Profile Enhancements: The current ProfileController is standard Breeze. We might want to allow users to update their Zone or Role (or lock it down).
+Real-time Updates: Use Laravel Reverb or Pusher to update the dashboard instantly when a neighbor reports an outage.
+
+Now that power status is dynamic, we can:
+
+3️⃣ Add rate limiting / anti-spam
+4️⃣ Build energy history timeline
+5️⃣ Add leader validation & approval
+6️⃣ Start Cardano transaction mapping
+
+👉 Recommended next: 4 (History Timeline)
+
+Build Notes Timeline
+Phases (Off-Chain/On-Chain)
+
+User-Category
+Dashboard Features
+Spam Control
+Steward Roles
+
+Aiken (write contract)
+   ↓
+aiken build (compile)
+   ↓
+Copy validator JSON to Node/Lucid project
+   ↓
+Lucid loads validator
+   ↓
+Lucid builds + signs + submits transactions
+   ↓
+Wallet interacts with the contract
+
+
+✔ Aiken gives you safe, readable smart contracts
+✔ Lucid gives you full control over UTXOs, inputs, outputs
+✔ Everything is just TypeScript and JSON
+✔ No Haskell or Plutus boilerplate
+✔ You don’t run a Cardano node — use Blockfrost API
+✔ Browser wallets do all the signing
+
+How to test locally without mainnet
+Or how to wrap Lucid transactions into a Laravel backend (hybrid model)
+How to compile and upload validators for a real DApp
+
+
+lets change what the admin is suppose to see, they are suppose to reject or confirm user's On or Off and with other other operations like the adding other common users like house or shop owner etc
+
+
+
